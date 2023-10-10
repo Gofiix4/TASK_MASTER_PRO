@@ -3,6 +3,7 @@
 <html dir="ltr" lang="en">
 
 <head>
+    
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -140,7 +141,7 @@
                                 <div class="user-pic"><img src="{% static 'img/users/1.jpg'%}" alt="users"
                                         class="rounded-circle" width="40" /></div>
                                 <div class="user-content hide-menu m-l-10">
-                                    <a href="#" class=" id="Userdd" role="button"
+                                    <a href="#" class="" id="Userdd" role="button"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <h5 class="m-b-0 user-name font-medium">Steave Jobs <i
                                                 class="fa fa-angle-down"></i></h5>
@@ -188,8 +189,7 @@
                                 href="{% url 'error'%}" aria-expanded="false"><i class="mdi mdi-alert-outline"></i><span
                                     class="hide-menu">404</span></a></li>
                         <li class="text-center p-40 upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/xtremeadmin/"
-                                class="btn d-block w-100 btn-danger text-white" target="_blank">Upgrade to Pro</a>
+                            
                         </li>
                     </ul>
 
@@ -248,42 +248,39 @@
                                     <code>.table</code>-based tables look in Bootstrap. All table styles are inherited
                                     in Bootstrap 4, meaning any nested tables will be styled in the same manner as the
                                     parent.</h6>
+                                    <div align="right"><input type="text" class="form-control form-control-lg" id="buscarInput" placeholder="Buscar..."></div>
+                                    
                                 <h6 class="card-title m-t-40"><i
                                         class="m-r-5 font-18 mdi mdi-numeric-1-box-multiple-outline"></i> Table With
                                     Outside Padding</h6>
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table" id="miTabla">
                                         <thead>
                                             <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">First</th>
-                                                <th scope="col">Last</th>
-                                                <th scope="col">Handle</th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Apellido</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Usuario</th>
+                                                <th scope="col">Contraseña</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for usuario in usuarios %}
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
+                                                <td scope="row"><strong>{{ usuario.id }}</strong></th>
+                                                <td>{{ usuario.first_name }}</td>
+                                                <td>{{ usuario.last_name }}</td>
+                                                <td>{{ usuario.email }}</td>
+                                                <td>{{ usuario.username }}</td>
+                                                <td>{{ usuario.password }}</td>
                                             </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
+                                    <button class="btn d-block w-100 btn-success text-white" id="exportarExcel">Exportar a Excel</button>
                                 </div>
-                                <h6 class="card-title"><i
+                                <!--<h6 class="card-title"><i
                                         class="m-r-5 font-18 mdi mdi-numeric-2-box-multiple-outline"></i> Table Without
                                     Outside Padding</h6>
                             </div>
@@ -318,9 +315,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
+                    <!--
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -614,7 +612,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -661,6 +659,44 @@
     <script src="{% static 'js/sidebarmenu.js'%}"></script>
     <!--Custom JavaScript -->
     <script src="{% static 'js/custom.js'%}"></script>
+    <!--Libreria para la creacion de excel -->    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script>
+    //Filtro
+    function filtrarTabla() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("buscarInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("miTabla");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) {
+        tr[i].style.display = "none";
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            if (td[j]) {
+            txtValue = td[j].textContent || td[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                break;
+            }
+            }
+        }
+        }
+    }
+
+    //Aqui exporta al excel
+    function exportarExcel() {
+        var tabla = document.getElementById("miTabla");
+        var libro = XLSX.utils.table_to_book(tabla);
+        XLSX.writeFile(libro, "tabla.xlsx");
+    }
+
+    //Eventos
+    document.getElementById("buscarInput").addEventListener("keyup", filtrarTabla);
+    document.getElementById("exportarExcel").addEventListener("click", exportarExcel);
+    </script>
+
 </body>
 
 </html>
