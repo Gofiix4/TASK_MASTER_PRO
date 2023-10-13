@@ -21,28 +21,6 @@ class Home(APIView):
         return render(request,self.template_name)
     def post(self,request):
         return render(request,self.template_name)
-            
-class Signout(APIView):
-    def get(self,request):
-        logout(request)
-        return redirect('signin')
-
-class Signin(APIView):
-    template_name="signin.html"
-    def get(self,request):
-        return render(request, self.template_name, {
-            'form': AuthenticationForm
-        })
-    def post(self,request):
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        if user is None:
-            return render(request, self.template_name, {
-                'form': AuthenticationForm,
-                'error': 'Usuario o contraseña incorrecta'
-            })
-        else:
-            login(request, user)
-            return redirect("/")
 
 class Signup(APIView):
     template_name="signup.html"
@@ -74,6 +52,28 @@ class Signup(APIView):
                 'form' : UserCreationForm,
                 "mensaje" : 'Este usuario ya existe, por favor ingresa otro'
             })
+
+class Signin(APIView):
+    template_name="signin.html"
+    def get(self,request):
+        return render(request, self.template_name, {
+            'form': AuthenticationForm
+        })
+    def post(self,request):
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            return render(request, self.template_name, {
+                'form': AuthenticationForm,
+                'error': 'Usuario o contraseña incorrecta'
+            })
+        else:
+            login(request, user)
+            return redirect("/")
+            
+class Signout(APIView):
+    def get(self,request):
+        logout(request)
+        return redirect('signin')
 
 class Error(APIView):
     template_name="error-404.html"
