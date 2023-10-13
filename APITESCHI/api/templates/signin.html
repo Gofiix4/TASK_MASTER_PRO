@@ -34,7 +34,7 @@
               <p class="mb-4">Ingresa tu credenciales para poder acceder.</p>
               <p class="mb-4" style="color:red;">{{error}}</p>
             </div>
-            <form action='/signin/' method="POST">
+            <form method="POST">
               {% csrf_token%}
               <div class="form-group first">
                 <label for="username">Usuario</label>

@@ -21,19 +21,39 @@ class Home(APIView):
         return render(request,self.template_name)
     def post(self,request):
         return render(request,self.template_name)
+            
+class Signout(APIView):
+    def get(self,request):
+        logout(request)
+        return redirect('signin')
 
-def signup(request):
-    longitud = 10  # Longitud de la contraseña
-    caracteres = string.ascii_letters + string.digits  # Caracteres permitidos
+class Signin(APIView):
+    template_name="signin.html"
+    def get(self,request):
+        return render(request, self.template_name, {
+            'form': AuthenticationForm
+        })
+    def post(self,request):
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            return render(request, self.template_name, {
+                'form': AuthenticationForm,
+                'error': 'Usuario o contraseña incorrecta'
+            })
+        else:
+            login(request, user)
+            return redirect("/")
 
-    contra_aleatoria = ''.join(secrets.choice(caracteres) for _ in range(longitud)) # Generacion de la contraseña
-    # Si esta solicitando informacion por el metodo GET se envia el formulario
-    if request.method =='GET':
+class Signup(APIView):
+    template_name="signup.html"
+    def get(self,request):
         return render(request, 'signup.html',{
             'form' : UserCreationForm
         })
-    # Si no, se esta posteando informacion
-    else:
+    def post(self,request):
+        longitud = 10  # Longitud de la contraseña
+        caracteres = string.ascii_letters + string.digits  # Caracteres permitidos
+        contra_aleatoria = ''.join(secrets.choice(caracteres) for _ in range(longitud))
         try:
             # Aqui guarda en la base de datos
             user = User.objects.create_user(first_name=request.POST['first_name'], email=request.POST['email'], last_name=request.POST['last_name'], username=request.POST['username'], password=contra_aleatoria) # Al final a password se le asigna el valor de contraseña aleatoria
@@ -54,43 +74,7 @@ def signup(request):
                 'form' : UserCreationForm,
                 "mensaje" : 'Este usuario ya existe, por favor ingresa otro'
             })
-def signout(request):
-    logout(request)
-    return redirect('signin')
 
-def signin(request):
-    if request.method == 'GET':
-        return render(request, 'signin.html', {
-            'form': AuthenticationForm
-        })
-    else:
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        if user is None:
-            return render(request, 'signin.html', {
-                'form': AuthenticationForm,
-                'error': 'Usuario o contraseña incorrecta'
-            })
-        else:
-            login(request, user)
-            return redirect("/")
-
-"""
-class Signin(APIView):
-    template_name="signin.html"
-    def get(self,request):
-        print('Enviando formulario')
-        return render(request,self.template_name)
-    def post(self,request):
-        print('Obteniendo datos')
-        return render(request,self.template_name)
-
-class Signup(APIView):
-    template_name="signup.html"
-    def get(self,request):
-        return render(request,self.template_name)
-    def post(self,request):
-        return render(request,self.template_name)
-"""
 class Error(APIView):
     template_name="error-404.html"
     def get(self,request):
@@ -166,6 +150,7 @@ def forgotPwd(request):
             if user.exists():
                 user = user[0]
                 user.set_password(contra_aleatoria)
+                user.save()
             # Defines variables para que posteriormente las mandes por una mamada de link inverso xd a la clase que manda el correo
             nombre = " "
             correo = request.POST['email']
