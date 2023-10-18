@@ -34,7 +34,7 @@
               <p class="mb-4">Ingresa tu credenciales para poder acceder.</p>
               <p class="mb-4" style="color:red;">{{error}}</p>
             </div>
-            <form method="POST">
+            <form method="POST" id="signin_form">
               {% csrf_token%}
               <div class="form-group first">
                 <label for="username">Usuario</label>
@@ -55,7 +55,7 @@
                 <span class="ml-auto"><a href="{% url 'forgot-password' %}" class="forgot-pass">Olvide mi contraseña</a></span> 
               </div>
 
-              <input type="submit" value="Iniciar sesión" class="btn btn-block btn-primary">
+              <button id="iniciar" value="Iniciar sesión" class="btn btn-block btn-primary"> Iniciar sesión </button>
 
               <span class="d-block text-center my-4 text-muted">&mdash; o &mdash;</span>
               
@@ -70,12 +70,11 @@
 
     
   </div>
-    
-    
 
     <script src="{% static 'js/jquery-3.3.1.min.js'%}"></script>
     <script src="{% static 'js/popper.min.js'%}"></script>
     <script src="{% static 'js/bootstrap.min.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>
+    <script src="{% static 'js/compruebaForms.js'%}"></script>
   </body>
 </html>

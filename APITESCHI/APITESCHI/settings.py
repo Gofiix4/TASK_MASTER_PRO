@@ -136,4 +136,13 @@ EMAIL_HOST_PASSWORD = 'nzxi lqvh uptz ijfn'
 
 #Configuracion opcional del correo
 DEFAULT_FROM_EMAIL = 'carlos.eht.09@gmail.com'
-EMAIL_SUBJECT_PREFIX = '[TaskMaster Pro: Asignación de contraseña]'
+EMAIL_SUBJECT_PREFIX = '[TaskMaster Pro]'
+
+# Configura el motor de almacenamiento de sesión
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+# Configura el tiempo de expiración de la sesión en segundos (Ahorita 15 minutos)
+SESSION_COOKIE_AGE = 900
+
+# Cada que el usuario hace una solicitud al servidor el tiempo de la sesion se reinicia
+SESSION_SAVE_EVERY_REQUEST = True

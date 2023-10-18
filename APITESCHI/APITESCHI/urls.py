@@ -15,15 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import Home, Signin, Signout, Signup, Icon, Pages, Starter, Table
+from api.views import Home, Signin, Signout, Signup, Icon, Pages, Starter, Table, forgotPwd
 from api.views import Error
 from api import views
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('',Home.as_view(),name='index'),
-    #path('signin/',Signin.as_view(),name='signin'),
-    #path('signup/',Signup.as_view(),name='signup'),
     path('error/',Error.as_view(),name='error'),
     path('icon/',Icon.as_view(),name='icon'),
     path('pages/',Pages.as_view(),name='pages'),
@@ -32,7 +30,7 @@ urlpatterns = [
     path('signup/',Signup.as_view(), name='signup'),
     path('logout/',Signout.as_view(), name='logout'),
     path('signin/',Signin.as_view(), name='signin'),
-    path('forgot-password/',views.forgotPwd, name='forgot-password'),
-    path('enviar_correo/<str:nombre>/<str:correo>/<str:apellido>/<str:usuario>/<str:contra>/', views.enviar_correo, name='enviar_correo'),
+    path('forgot-password/',forgotPwd.as_view(), name='forgot-password'),
+    path('enviar_correo/<str:nombre>/<str:correo>/<str:apellido>/<str:usuario>/<str:contra>/<str:asunto>/<str:detalles>/', views.enviar_correo, name='enviar_correo'),
     
 ]

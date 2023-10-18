@@ -35,7 +35,7 @@
                 <div class="card-body">
                     <h1 class="title">Registro de información</h1>
                     <h5 class="title" style="color:red;">{{mensaje}}</h5>
-                    <form method="POST">
+                    <form method="POST" id="signup_form">
                         {% csrf_token %}
                         <div class="input-group">
                             <input class="input--style-1" type="text" placeholder="Nombre" name="first_name" id="first_name">
@@ -51,9 +51,13 @@
                         </div>
 
                         <div class="p-t-20" align="center">
-                            <button class="btn btn--radius btn--green" type="submit">Registrate!</button>
+                            <button class="btn btn--radius btn--green" id="registrar">Registrate</button>
                         </div>
                     </form>
+
+                    <div class="p-t-20" align="center">
+                        <a href="{% url 'signin' %}" class="btn btn--radius btn--blue">Inicia sesión</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,7 +72,7 @@
 
     <!-- Main JS-->
     <script src="{% static 'js/global.js'%}"></script>
-
+    <script src="{% static 'js/compruebaForms.js'%}"></script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
 </html>
