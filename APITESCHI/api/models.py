@@ -1,36 +1,5 @@
 from django.db import models
-
-# Create your models here.
-class Genero(models.Model):
-    idGenero = models.AutoField(primary_key=True,db_column='idGenero')
-    tipoGenero = models.TextField(db_column='tipoGenero')
-    class Meta:
-        db_table='Generos'
-
-class Alumno(models.Model):
-    idAlumno = models.IntegerField(primary_key=True,db_column='idAlumno')
-    nameAlumno = models.CharField(max_length=100,db_column='nameAlumno')
-    class Meta:
-        db_table='Alumnos'
-
-class alumno_has_genero(models.Model):
-    idalumno_has_genero = models.AutoField(primary_key=True,default=1,db_column='idalumno_has_genero')
-    fk_alumno = models.ForeignKey(Alumno,on_delete=models.CASCADE,db_column='fk_alumno')
-    fk_genero = models.ForeignKey(Genero,on_delete=models.CASCADE,db_column='fk_genero')
-    class Meta:
-        db_table='alumno_has_genero'
-
-class Usuarios(models.Model):
-    idUsuario = models.AutoField(primary_key=True,db_column='idUsuario')
-    Nombre = models.CharField(max_length=45,default='nombre',db_column='Nombre')
-    ApellidoP = models.CharField(max_length=45,default='apellidop',db_column='ApellidoP')
-    ApellidoM = models.CharField(max_length=45,default='apellidom',db_column='ApellidoM')
-    Fecha_nacimiento = models.DateField(default='2000/01/01',db_column='Fecha_nacimiento')
-    Telefono = models.IntegerField(default=0,db_column='Telefono')
-    Correo = models.EmailField(max_length=50,default='algo@algo.algo',db_column='Correo')
-    Contrasena = models.CharField(max_length=64,default='contra123',db_column='Contrasena')
-    class Meta:
-        db_table='Usuarios'
+from django.contrib.auth.models import User
 
 class Tareas(models.Model):
     idTarea = models.AutoField(primary_key=True,db_column='idTarea')
@@ -40,7 +9,7 @@ class Tareas(models.Model):
     Fecha_vencimiento = models.DateField(default='2000-01-01',db_column='Fecha_vencimiento')
     Status = models.CharField(max_length=15,default='Pendiente',db_column='Status')
     Prioridad = models.CharField(max_length=10,default='Baja',db_column='Prioridad')
-    fk_Usuario = models.ForeignKey(Usuarios,on_delete=models.CASCADE,db_column='fk_Usuario')
+    fk_Usuario = models.ForeignKey(User,on_delete=models.CASCADE,db_column='fk_Usuario')
     class Meta:
         db_table='Tareas'
 
@@ -48,7 +17,7 @@ class Lista_tareas(models.Model):
     idLista = models.AutoField(primary_key=True,db_column='idLista')
     Nombre = models.CharField(max_length=45,default='Nombre',db_column='Nombre')
     Descripcion = models.CharField(max_length=200,default='Descripcion',db_column='Descripcion')
-    fk_Usuario = models.ForeignKey(Usuarios,on_delete=models.CASCADE,db_column='fk_Usuario')
+    fk_Usuario = models.ForeignKey(User,on_delete=models.CASCADE,db_column='fk_Usuario')
     class Meta:
         db_table='Lista_tareas'
 

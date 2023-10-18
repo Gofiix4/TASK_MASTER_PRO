@@ -38,26 +38,33 @@ class Signup(APIView):
         caracteres = string.ascii_letters + string.digits
         contra_aleatoria = ''.join(secrets.choice(caracteres) for _ in range(longitud))
         try:
-            # Aqui guarda en la base de datos
-            user = User.objects.create_user(first_name=request.POST['first_name'], email=request.POST['email'], last_name=request.POST['last_name'], username=request.POST['username'], password=contra_aleatoria) # Al final a password se le asigna el valor de contraseña aleatoria
-            # Guardas el usuario
-            user.save()
-            # Defines variables para que posteriormente las mandes por una mamada de link inverso xd a la clase que manda el correo
-            nombre = request.POST['first_name']
-            correo = request.POST['email']
-            apellido = request.POST['last_name']
-            usuario = request.POST['username']
-            asunto = 'Bienvenida'
-            detalles = 'Bienvenido a Task Master Pro, tu compañero confiable en la gestión de tareas y la organización de tu vida diaria. Estamos encantados de que te hayas unido a nuestra comunidad de usuarios dedicados a mejorar su productividad y simplificar sus días.'
-            # Igual aqui a contra le mandas el valor de la cadena generada automaticamente
-            contra = contra_aleatoria
-            # Aqui retorna a la clase de enviar correo
-            return redirect('enviar_correo', nombre=nombre, correo=correo, apellido=apellido, usuario=usuario, contra=contra, asunto=asunto, detalles=detalles)
-        # Aqui te regresa al mismo formulario si es que el usuario que ingresaste ya existe
+            correo = User.objects.filter(email=request.POST['email'])
+            if correo.exists():
+                return render(request, self.template_name, {
+                    'form' : UserCreationForm,
+                    "mensaje" : 'El email que ingresaste ya es utilizado por otra persona, prueba introduciendo otro'
+                })
+            else:
+                # Aqui guarda en la base de datos
+                user = User.objects.create_user(first_name=request.POST['first_name'], email=request.POST['email'], last_name=request.POST['last_name'], username=request.POST['username'], password=contra_aleatoria) # Al final a password se le asigna el valor de contraseña aleatoria
+                # Guardas el usuario
+                user.save()
+                # Defines variables para que posteriormente las mandes por una mamada de link inverso xd a la clase que manda el correo
+                nombre = request.POST['first_name']
+                correo = request.POST['email']
+                apellido = request.POST['last_name']
+                usuario = request.POST['username']
+                asunto = 'Bienvenida'
+                detalles = 'Bienvenido a Task Master Pro, tu compañero confiable en la gestión de tareas y la organización de tu vida diaria. Estamos encantados de que te hayas unido a nuestra comunidad de usuarios dedicados a mejorar su productividad y simplificar sus días.'
+                # Igual aqui a contra le mandas el valor de la cadena generada automaticamente
+                contra = contra_aleatoria
+                # Aqui retorna a la clase de enviar correo
+                return redirect('enviar_correo', nombre=nombre, correo=correo, apellido=apellido, usuario=usuario, contra=contra, asunto=asunto, detalles=detalles)
+            # Aqui te regresa al mismo formulario si es que el usuario que ingresaste ya existe
         except IntegrityError:
             return render(request, self.template_name, {
                 'form' : UserCreationForm,
-                "mensaje" : 'El usuario o email que ingresaste ya es utilizado por otra persona, prueba introduciendo otro'
+                "mensaje" : 'El usuario que ingresaste ya es utilizado por otra persona, prueba introduciendo otro'
             })
         except MultiValueDictKeyError:
             return render(request, self.template_name, {
