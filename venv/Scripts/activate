@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\CarlosEnrique\Documents\APIDjangoReal\venv"
+VIRTUAL_ENV="C:\Users\carlo\OneDrive\Documentos\APIDjangoReal\TASK_MASTER_PRO\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
