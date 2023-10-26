@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'APITESCHI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'taskmasterpro',
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost', # Puede ser una dirección IP o un nombre de host
+        'PORT': '', # Deja en blanco para usar el puerto predeterminado (5432)
     }
 }
 

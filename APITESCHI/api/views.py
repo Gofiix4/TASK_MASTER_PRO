@@ -11,14 +11,13 @@ from django.template.loader import render_to_string
 import secrets
 import string
 #
-from django.shortcuts import render
 from django.http import HttpResponse
 from user_agents import parse
 import user_agents 
 
 import datetime
 # Create your views here.
-
+from .models import Encuesta_calidad
 
 class Home(APIView):
     template_name="index.html"
@@ -242,3 +241,12 @@ class forgotPwd(APIView):
                 'form' : UserCreationForm,
                 "mensaje" : 'No hemos podido localizar tu cuenta, asegurate de que tu correo sea correcto'
             })
+
+def chart_data(request):
+    ventas = Encuesta_calidad.objects.all()
+    # Procesa los datos y prepáralos para el gráfico
+    data = {
+        'labels': [str(venta.Pregunta2) for venta in ventas],
+        'data': [venta.Pregunta2 for venta in ventas],
+    }
+    return render(request, 'chart.html', {'data': data})

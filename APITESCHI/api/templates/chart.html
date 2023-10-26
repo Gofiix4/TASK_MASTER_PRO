@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gráfico de ventas</title>
+    <!-- Incluye las bibliotecas de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Gráfico de ventas</h1>
+    <div style="width: 80%; margin: 0 auto;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        // Configura los datos del gráfico
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var data = {{ data|safe }};
+        
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Ventas',
+                    data: data.data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                // Configura las opciones del gráfico
+            }
+        });
+    </script>
+</body>
+</html>

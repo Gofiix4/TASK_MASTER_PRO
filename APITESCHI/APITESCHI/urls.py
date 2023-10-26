@@ -21,6 +21,7 @@ from api import views
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
+    path('chart/', views.chart_data, name='chart_data'),
     path('',Home.as_view(),name='index'),
     path('error/',Error.as_view(),name='error'),
     path('icon/',Icon.as_view(),name='icon'),

@@ -41,3 +41,16 @@ class Tareas_has_etiquetas(models.Model):
     fk_Etiqueta = models.ForeignKey(Etiquetas,on_delete=models.CASCADE,db_column='fk_Etiqueta')
     class Meta:
         db_table='Tareas_has_etiquetas'
+        
+class Encuesta_calidad(models.Model):
+    Marca_temporal = models.TextField(max_length=200, default='Marca temporal', db_column='Marca temporal')
+    Pregunta1 = models.TextField(max_length=200, default='pregunta1', db_column='Satisfaccion de usabilidad')
+    Pregunta2 = models.TextField(max_length=200, default='pregunta2', db_column='Frecuencia de uso')
+    Pregunta3 = models.TextField(max_length=200, default='pregunta3', db_column='Caracteristica mas util')
+    Pregunta4 = models.TextField(max_length=200, default='pregunta4', db_column='Caracteristica a mejorar')
+    Pregunta5 = models.TextField(max_length=200, default='pregunta5', db_column='La recomendarias')
+    Pregunta6 = models.TextField(max_length=200, default='pregunta6', db_column='Velocidad y rendimiento')
+    Pregunta7 = models.TextField(max_length=200, default='pregunta7', db_column='Servicio de FAQ')
+    class Meta:
+        db_table='Encuesta_calidad'
+    
