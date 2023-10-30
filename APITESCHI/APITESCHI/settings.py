@@ -36,7 +36,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 # Application definition
 
 INSTALLED_APPS = [
-    'api',
+    'APITESCHI.api',
 	'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
