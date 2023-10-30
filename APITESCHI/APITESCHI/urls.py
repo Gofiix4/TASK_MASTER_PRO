@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from APITESCHI.api.views import Home, Signin, Signout, Signup, Icon, Pages, Starter, Table, forgotPwd
-from APITESCHI.api.views import Error
-from APITESCHI.api import views
+from api.views import Home, Signin, Signout, Signup, Icon, Pages, Starter, Table, forgotPwd
+from api.views import Error
+from api import views
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
