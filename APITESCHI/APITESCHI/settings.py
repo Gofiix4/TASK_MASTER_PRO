@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'APITESCHI.urls'
+ROOT_URLCONF = 'APITESCHI.APITESCHI.urls'
 
 TEMPLATES = [
     {
