@@ -250,3 +250,6 @@ def chart_data(request):
         'data': [venta.Pregunta2 for venta in ventas],
     }
     return render(request, 'chart.html', {'data': data})
+
+def page_not_found(request, exception):
+    return render(request, 'error-404.html', status=404)
