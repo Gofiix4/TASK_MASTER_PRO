@@ -35,10 +35,6 @@ if not DEBUG:
     # in your application directory on Render.
     STATIC_ROOT = BASE_DIR / 'api/static'
 
-    # Turn on WhiteNoise storage backend that takes care of compressing static files
-    # and creating unique names for each version so they can safely be cached forever.
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 """
 DEBUG = 'RENDER' not in os.environ
 
