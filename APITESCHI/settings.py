@@ -28,7 +28,9 @@ ALLOWED_HOSTS = ["*"]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = False
+# DEBUG = True
+
+DEBUG = 'RENDER' not in os.environ
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
