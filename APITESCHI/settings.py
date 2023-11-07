@@ -28,7 +28,7 @@ ALLOWED_HOSTS = ["*"]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = False
+DEBUG = True
 
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
@@ -173,6 +173,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+LOGIN_URL = '/signin/'
 
 STATIC_URL = '/static/'
 

@@ -33,4 +33,32 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const formulario = document.getElementById("update_form");
+    const botonEnviar = document.getElementById("actualizar");
+  
+    formulario.addEventListener("submit", function(event) {
+      // Validar que los campos estén llenos
+      const first_name = document.getElementById("first_name").value;
+      const last_name = document.getElementById("last_name").value;
+      const email = document.getElementById("email").value;
+      const username = document.getElementById("username").value;
+      // Puedes agregar más campos y validaciones según tus necesidades.
+  
+      if (first_name === "" || last_name === "" || email === "" || username === "") {
+        alert("Por favor, llene todos los campos");
+        event.preventDefault(); // Evita que el formulario se envíe
+      }
+      else{
+        var respuesta = window.confirm("¿Realmente deseas actualizar los datos de tu perfil?");
+
+        if (respuesta) {
+        } else {
+          event.preventDefault();
+        }
+
+      }
+    });
+  });
   
