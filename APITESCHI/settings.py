@@ -28,7 +28,7 @@ ALLOWED_HOSTS = ["*"]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = True
+DEBUG = False
 
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
@@ -199,7 +199,7 @@ EMAIL_SUBJECT_PREFIX = '[TaskMaster Pro]'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Configura el tiempo de expiración de la sesión en segundos (Ahorita 15 minutos)
-SESSION_COOKIE_AGE = 900
+SESSION_COOKIE_AGE = 90000
 
 # Cada que el usuario hace una solicitud al servidor el tiempo de la sesion se reinicia
 SESSION_SAVE_EVERY_REQUEST = True
