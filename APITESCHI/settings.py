@@ -34,6 +34,10 @@ if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
     # in your application directory on Render.
     STATIC_ROOT = BASE_DIR / 'api/static'
+    
+RENDER_EXTERNAL_HOSTNAME = False
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 """
 DEBUG = 'RENDER' not in os.environ
