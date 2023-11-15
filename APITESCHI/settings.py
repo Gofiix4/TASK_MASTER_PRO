@@ -28,7 +28,7 @@ ALLOWED_HOSTS = ["*"]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = False
+DEBUG = 'RENDER' not in os.environ
 
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
