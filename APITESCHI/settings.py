@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'APITESCHI.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+"""
 
 # Render.com / Oregon host / PostgrSQL
 DATABASES = {
@@ -130,7 +130,6 @@ DATABASES = {
         'PORT': '', # Deja en blanco para usar el puerto predeterminado (5432)
     }
 }
-"""
 
 """
 # localhost / SQLite

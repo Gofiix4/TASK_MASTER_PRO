@@ -22,18 +22,16 @@ from .models import Encuesta_calidad
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+import requests
+from pprint import pprint
+
+@method_decorator(login_required, name='dispatch')
 class Home(APIView):
     template_name="index.html"
     def get(self,request):
-        if request.user.is_authenticated:
-            return render(request,self.template_name)
-        else:
-            return redirect('signin')
+        return render(request,self.template_name)
     def post(self,request):
-        if request.user.is_authenticated:
-            return render(request,self.template_name)
-        else:
-            return redirect('signin')
+        return render(request,self.template_name)
 
 class Signup(APIView):
     template_name="signup.html"
@@ -143,6 +141,7 @@ class Error(APIView):
     def post(self,request):
         return render(request,self.template_name)
 
+@method_decorator(login_required, name='dispatch')
 class Icon(APIView):
     template_name="icon-material.html"
     def get(self,request):
@@ -167,30 +166,77 @@ class Pages(APIView):
                     "apellido" : last_name,
                     "email" : email,
                     "usuario" : username
-                })
+            })
     def post(self,request):
         try:
-            user = request.user  # Obtén el usuario actualmente autenticado
-            user_id = user.id  # Obtén el ID del usuario
-            user.first_name = request.POST['first_name']
-            user.last_name = request.POST['last_name']
-            user.email = request.POST['email']
-            user.username = request.POST['username']
-            user.save()
-            # Aqui retorna a la clase de enviar correo
-            return render(request, self.template_name,{
-                "color" : 'lightgreen',
-                "mensaje" : 'Los datos de tu perfil se han actualizado de manera correcta',
-                "nombre" : request.POST['first_name'],
-                "apellido" : request.POST['last_name'],
-                "email" : request.POST['email'],
-                "usuario" : request.POST['username']
-            })
+                user = request.user  # Obtén el usuario actualmente autenticado
+                user_id = user.id  # Obtén el ID del usuario
+                user.first_name = request.POST['first_name']
+                user.last_name = request.POST['last_name']
+                user.email = request.POST['email']
+                user.username = request.POST['username']
+                user.save()
+                # Aqui retorna a la clase de enviar correo
+                return render(request, self.template_name,{
+                    "color" : 'lightgreen',
+                    "mensaje" : 'Los datos de tu perfil se han actualizado de manera correcta',
+                    "nombre" : request.POST['first_name'],
+                    "apellido" : request.POST['last_name'],
+                    "email" : request.POST['email'],
+                    "usuario" : request.POST['username']
+                })
         except IntegrityError:
             return render(request, self.template_name,{
                 'form' : UserCreationForm,
                 "color" : 'red',
                 "mensaje" : 'No se pudo actualizar la información de tu perfil'
+            })
+
+@method_decorator(login_required, name='dispatch')
+class updPassword(APIView):
+    template_name="updatePassword.html"
+    def get(self,request):
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            user = request.user
+            first_name = user.first_name
+            last_name = user.last_name
+            email = user.email
+            username = user.username
+            print(user_id, user, username, first_name, last_name, email)
+            return render(request,self.template_name, {
+                    "nombre" : first_name,
+                    "apellido" : last_name,
+                    "email" : email,
+                    "usuario" : username,
+                    "actualizacion" : 'false'
+            })
+    def post(self,request):
+        try:
+            user = request.user  # Obtén el usuario actualmente autenticado
+            user_id = user.id  # Obtén el ID del usuario
+            first_name = user.first_name
+            last_name = user.last_name
+            email = user.email
+            username = user.username
+            user.set_password(request.POST['newPassword'])
+            user.save()
+            # Aqui retorna a la clase de enviar correo
+            return render(request, self.template_name,{
+                "color" : 'lightgreen',
+                "mensaje" : 'Tu contraseña se ha actualizado de manera correcta',
+                "nombre" : first_name,
+                "apellido" : last_name,
+                "email" : email,
+                "usuario" : username,
+                "actualizacion" : 'true'
+            })
+        except IntegrityError:
+            return render(request, self.template_name,{
+                'form' : UserCreationForm,
+                "color" : 'red',
+                "mensaje" : 'No se podido actualizar tu contraseña, intentalo más tarde',
+                "actualizacion" : 'false'
             })
 
 @method_decorator(login_required, name='dispatch')
@@ -201,6 +247,7 @@ class Starter(APIView):
     def post(self,request):
         return render(request,self.template_name)
 
+@method_decorator(login_required, name='dispatch')
 class Table(APIView):
     template_name="table-basic.html"
     def get(self,request):
@@ -315,3 +362,35 @@ def chart_data(request):
 
 def page_not_found(request, exception):
     return render(request, 'error-404.html', status=404)
+
+def weather(request):
+    if request.method == 'POST':
+        city = request.POST['city']
+        url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid=1b81cdba152c5dc5d951066295360d1e".format(city)
+
+        res = requests.get(url)
+
+        try:
+            temp = res.json()["main"]["temp"]
+            vel_viento = res.json()["wind"]["speed"]
+            latitud = res.json()["coord"]["lat"]
+            longitud = res.json()["coord"]["lon"]
+            descripcion = res.json()["weather"][0]["description"]
+            
+            tempo = round(temp - 273.15, 1)
+
+            context = {
+                'temp': "Temperatura:"+ str(tempo)+"°C",
+                'vel_viento': "Velocidad del viento:"+ str(vel_viento)+"m/s",
+                'latitud': "Latitud:"+ str(latitud),
+                'longitud': "Longitud:"+ str(longitud),
+                'descripcion': "Descripción:"+ str(descripcion),
+            }
+
+            return render(request, 'weather.html', context)
+
+        except KeyError as e:
+            error_message = "Error: Clave no encontrada - {}".format(e)
+            return render(request, 'weather/error.html', {'error_message': error_message})
+
+    return render(request, 'weather.html')

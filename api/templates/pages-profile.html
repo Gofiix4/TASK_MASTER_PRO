@@ -24,6 +24,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js'%}"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js'%}"></script>
 <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -183,8 +184,7 @@
                     </div>
                     <div class="col-7">
                         <div class="text-end upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/xtremeadmin/" class="btn btn-danger text-white"
-                                target="_blank">Upgrade to Pro</a>
+                            <button class="btn btn-danger text-white" id="btnUpdatePwd">Actualizar contraseña</button>
                         </div>
                     </div>
                 </div>
@@ -235,11 +235,14 @@
                     <!-- Column -->
                     <!-- Column -->
                     <div class="col-lg-8 col-xlg-9 col-md-7">
-                        <div class="card">
+                        <!--Div para actualizar datos-->
+                        <div class="card" id="updDatos">
                             <div class="card-body">
                                 <div align="center" style="background-color: {{ color }}; color:white;">{{ mensaje }}</div>
-                                <form class="form-horizontal form-material mx-2" id="update_form" method="POST">
+                                <br>
+                                <form class="form-horizontal form-material mx-2" id="update_form" name="update_form" method="POST">
                                     {% csrf_token%}
+                                    <input type="hidden" name="form_Data" id="form_Data" value="disable">
                                     <div class="form-group">
                                         <label class="col-md-12">Nombre</label>
                                         <div class="col-md-12">
@@ -302,7 +305,7 @@
                                             <button class="btn btn-success text-white" id="actualizar">Actualizar perfil</button>
                                         </div>
                                     </div>
-                                </form>
+                                </br>
                             </div>
                         </div>
                     </div>
@@ -344,6 +347,24 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    <!-- Coloca este script al final de tu archivo HTML, justo antes de cerrar el cuerpo </body> -->
+<!-- Coloca este script al final de tu archivo HTML, justo antes de cerrar el cuerpo </body> -->
+
+    <script>
+        // Espera a que el documento esté completamente cargado
+        document.addEventListener("DOMContentLoaded", function() {
+            // Encuentra el botón por su ID
+            var btnUpdatePwd = document.getElementById("btnUpdatePwd");
+
+            // Agrega un evento de clic al botón
+            btnUpdatePwd.addEventListener("click", function() {
+                // Redirige a la nueva vista (reemplaza 'nueva_vista' con la URL de tu vista)
+                window.location.href = "/updatePwd/";
+            });
+        });
+    </script>
+
+
     <script src="{% static 'js/jquery.min.js'%}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
@@ -354,8 +375,6 @@
     <script src="{% static 'js/sidebarmenu.js'%}"></script>
     <!--Custom JavaScript -->
     <script src="{% static 'js/custom.js'%}"></script>
-
-    <script src="{% static 'js/compruebaForms.js'%}"></script>
 </body>
 
 </html>

@@ -53,4 +53,3 @@ class Encuesta_calidad(models.Model):
     Pregunta7 = models.TextField(max_length=200, default='pregunta7', db_column='Servicio de FAQ')
     class Meta:
         db_table='Encuesta_calidad'
-    
