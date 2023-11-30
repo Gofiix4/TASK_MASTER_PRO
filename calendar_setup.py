@@ -9,7 +9,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 directorio_actual = os.path.dirname(__file__)
 
 # Nombre del archivo que deseas leer
-nombre_archivo = 'client_secret_432443295689-rcikjhqjb904okrs17gu8po6sb3mq3s8.apps.googleusercontent.com.json'
+nombre_archivo = 'token.json'
 
 CREDENTIALS_FILE = os.path.join(directorio_actual, nombre_archivo)
 

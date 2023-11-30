@@ -33,7 +33,7 @@ DEBUG = 'RENDER' not in os.environ
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
     # in your application directory on Render.
-    STATIC_ROOT = BASE_DIR / 'api/static'
+    STATIC_ROOT = 'https://storage.googleapis.com/apiteschistaticgxiv/static/'
     
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -179,7 +179,11 @@ USE_TZ = True
 
 LOGIN_URL = '/signin/'
 
-STATIC_URL = '/static/'
+STATIC_URL = 'https://storage.googleapis.com/apiteschistaticgxiv/static/'
+
+# Usar Google Cloud Storage para almacenar archivos de medios.
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'apiteschistaticgxiv'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

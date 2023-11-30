@@ -2,7 +2,7 @@ import requests
 from pprint import pprint
 
 city = input("Enter your city:  ")
-url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid=1b81cdba152c5dc5d951066295360d1e".format(city)
+url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid=85ab46f6b9a40d01d05dc16b8603af05".format(city)
 
 res = requests.get(url)
 

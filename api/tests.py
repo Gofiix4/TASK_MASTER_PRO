@@ -1,6 +1,6 @@
 import pytest
 from django.contrib.auth.models import User
-from .models import Tareas, Lista_tareas, Listas_has_tareas
+from .models import Tareas, Lista_tareas, Listas_has_tareas,Ciudades, Consultas, Favoritos
 from datetime import date
 
 @pytest.mark.django_db
@@ -98,3 +98,4 @@ def test_listas_has_tareas_model():
     lista_tareas_has_tareas_db.delete()
     tarea.delete()
     lista_tareas.delete()
+
