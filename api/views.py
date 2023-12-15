@@ -16,6 +16,7 @@ from user_agents import parse
 import user_agents 
 
 import datetime
+from datetime import datetime as fechaparte
 # Create your views here.
 from .models import Encuesta_calidad
 
@@ -24,6 +25,8 @@ from django.utils.decorators import method_decorator
 
 import requests
 from pprint import pprint
+
+from api.models import *
 
 @method_decorator(login_required, name='dispatch')
 class Home(APIView):
@@ -140,6 +143,38 @@ class Error(APIView):
         return render(request,self.template_name)
     def post(self,request):
         return render(request,self.template_name)
+
+class Task(APIView):
+    template_name="task.html"
+    def get(self,request):
+        status = Status.objects.all()
+        prioridad = Prioridad.objects.all()
+        return render(request,self.template_name, {'status': status, 'prioridad': prioridad})
+    def post(self,request):
+        Tstatus = Status.objects.all()
+        Tprioridad = Prioridad.objects.all()
+        if 'formAdd' in request.POST:
+            try:
+                titulo = request.POST.get('titulo')
+                descripcion = request.POST.get('descripcion')
+                fecha_inicio = request.POST.get('fecha_inicio')
+                hora_inicio = request.POST.get('hora_inicio')
+                fecha_hora_inicio = str(fecha_inicio + ' ' + hora_inicio)
+                fecha_termino = request.POST.get('fecha_termino')
+                hora_termino = request.POST.get('hora_termino')
+                fecha_hora_termino = str(fecha_termino + ' ' + hora_termino)
+                status = request.POST.get('status')
+                prioridad = request.POST.get('prioridad')
+                if request.user.is_authenticated:
+                    id_usuario = request.user.id
+                    usuario = User.objects.get(pk=id_usuario)
+                    fkstatus = Status.objects.get(pk=status)
+                    fkprioridad = Prioridad.objects.get(pk=prioridad)
+                    registroTarea = Tareas(Titulo=titulo, Descripcion=descripcion, Fecha_inicio=fecha_hora_inicio, Fecha_termino=fecha_hora_termino, fk_Status=fkstatus, fk_Prioridad=fkprioridad, fk_Usuario=usuario)
+                    registroTarea.save()
+                    return render(request,self.template_name, {'mensaje': 'Tarea creada con exito!', "color" : 'lightgreen', 'status': Tstatus, 'prioridad': Tprioridad})
+            except Exception as e:
+                return render(request,self.template_name, {'mensaje': 'La tarea no se pudo crear' + str(e), "color" : 'red', 'status': Tstatus, 'prioridad': Tprioridad})
 
 @method_decorator(login_required, name='dispatch')
 class Icon(APIView):

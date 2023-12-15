@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import Home, Signin, Signup, Signout, Pages, updPassword, Icon, Starter, Table, forgotPwd, Error
+from api.views import Home, Signin, Signup, Signout, Pages, updPassword, Task, Icon, Starter, Table, forgotPwd, Error
 from api import views
 
 handler404 = 'api.views.page_not_found'
@@ -29,6 +29,7 @@ urlpatterns = [
     path('logout/',Signout.as_view(), name='logout'),
     path('pages/',Pages.as_view(),name='pages'),
     path('updatePwd/',updPassword.as_view(),name='update'),
+    path('task/',Task.as_view(),name='task'),
     path('error/',Error.as_view(),name='error'),
     path('icon/',Icon.as_view(),name='icon'),
     path('starter/',Starter.as_view(),name='starter'),

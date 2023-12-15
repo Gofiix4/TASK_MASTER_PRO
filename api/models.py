@@ -1,14 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Status(models.Model):
+    idStatus = models.AutoField(primary_key=True,db_column='idStatus')
+    Status = models.CharField(max_length=15,default='Status',db_column='Status')
+    class Meta:
+        db_table='Status'
+
+class Prioridad(models.Model):
+    idPrioridad = models.AutoField(primary_key=True,db_column='idPrioridad')
+    Prioridad = models.CharField(max_length=25,default='Prioridad',db_column='Prioridad')
+    class Meta:
+        db_table='Prioridad'
+
 class Tareas(models.Model):
     idTarea = models.AutoField(primary_key=True,db_column='idTarea')
     Titulo = models.CharField(max_length=50,default='Titulo',db_column='Titulo')
     Descripcion = models.CharField(max_length=200,default='Descripcion',db_column='Descripcion')
-    Fecha_creacion = models.DateField(default='2000-01-01',db_column='Fecha_creacion')
-    Fecha_vencimiento = models.DateField(default='2000-01-01',db_column='Fecha_vencimiento')
-    Status = models.CharField(max_length=15,default='Pendiente',db_column='Status')
-    Prioridad = models.CharField(max_length=10,default='Baja',db_column='Prioridad')
+    Fecha_inicio = models.DateTimeField(default='2000-01-01 12:00',db_column='Fecha_creacion')
+    Fecha_termino = models.DateTimeField(default='2000-01-01 12:00',db_column='Fecha_vencimiento')
+    fk_Status = models.ForeignKey(Status,on_delete=models.CASCADE,db_column='fk_Status')
+    fk_Prioridad = models.ForeignKey(Prioridad,on_delete=models.CASCADE,db_column='fk_Prioridad')
     fk_Usuario = models.ForeignKey(User,on_delete=models.CASCADE,db_column='fk_Usuario')
     class Meta:
         db_table='Tareas'

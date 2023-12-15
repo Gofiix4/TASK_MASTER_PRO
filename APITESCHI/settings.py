@@ -28,12 +28,14 @@ ALLOWED_HOSTS = ["*"]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = 'RENDER' not in os.environ
+DEBUG = True
+#DEBUG = 'RENDER' not in os.environ
 
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
     # in your application directory on Render.
-    STATIC_ROOT = 'https://storage.googleapis.com/apiteschistaticgxiv/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'api/static')
+    #STATIC_ROOT = 'https://storage.googleapis.com/apiteschistaticgxiv/static/'
     
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -179,7 +181,9 @@ USE_TZ = True
 
 LOGIN_URL = '/signin/'
 
-STATIC_URL = 'https://storage.googleapis.com/apiteschistaticgxiv/static/'
+STATIC_URL = '/static/'
+
+#STATIC_URL = 'https://storage.googleapis.com/apiteschistaticgxiv/static/'
 
 # Usar Google Cloud Storage para almacenar archivos de medios.
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
