@@ -8,7 +8,7 @@ datosAdmin = {'first_name': 'Carlos Enrique',
      'last_name': 'Hernandez Tellez',
      'is_superuser': True,
      'email': 'carlos.eht.09@gmail.com',
-     'username': 'carloseht',
+     'username': 'gxiv',
      'password': '123'}
 datosAdmin['password'] = make_password(datosAdmin['password'])
 datosStatus = [
